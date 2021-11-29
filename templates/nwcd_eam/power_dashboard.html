@@ -1,0 +1,162 @@
+{% extends "nwcd_all.html" %}
+{% block title %}  dashboard {% endblock %}
+{% block head%}
+<style type="text/css">
+.dt-buttons.btn-group.flex-wrap{
+    flex-wrap:nowrap !important;
+}
+</style>
+
+{% endblock%}
+{% block header  %} 机柜加电配置表 {% endblock %}
+
+{% block content %}
+
+<!-- /.card -->
+
+            <div class="card">
+              <div class="card-header">
+                <table>
+                    <tr>
+                      <td style="width:200px">
+                      <select class="form-control">
+                          <option class="s-item" data-id=1>ZHY50</option>
+                          <option class="s-item" data-id=2>ZHY51</option>
+                          <option class="s-item" data-id=3>ZHY52</option>
+                        </select>
+                      </td>
+                      <td style="width:200px">
+                      <select class="form-control">
+                          <option class="s-item" data-id=1>PDS inlet</option>
+                          <option class="s-item" data-id=2>PDS outlet</option>
+                          <option class="s-item" data-id=3>SWGR inlet</option>
+                          <option class="s-item" data-id=4>SWGR outlet</option>
+                          <option class="s-item" data-id=5>SWBD outlet</option>
+                          <option class="s-item" data-id=6>CCU number</option>
+                          <option class="s-item" data-id=7>UPS number</option>
+                          <option class="s-item" data-id=8>UDP number</option>
+                          <option class="s-item" data-id=9>POD number</option>
+                          <option class="s-item" data-id=10>RPP number</option>
+                          <option class="s-item" data-id=11>Rack number</option>
+                        </select>
+                      </td>
+                      <td  style="width:200px">  
+                        <select class="form-control" id="item-detail">
+                          <option>NULL</option>
+                        </select>
+                      </td>
+                      <td><button type="button" id="search-button" class="btn btn-block btn-success">search</button></td>
+
+                    </tr>
+                </table>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+              
+              </div>
+              <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                    <th>site</th>
+                    <th>supply_type</th>
+                    <th>rack_type</th>
+                    <th>rack_number</th>
+                    <th>open_number</th>
+                    <th>plug_number</th>
+                    <th>rpp_number</th>
+                    <th>pod_number</th>
+                    <th>udp_number</th>
+                    <th>ups_number</th>
+                    <th>ccu_number</th>
+                    <th>swbd_outlet</th>
+                    <th>swgr_outlet</th>
+                    <th>swgr_inlet</th>
+                    <th>pds_inlet</th>
+                    <th>pds_outlet</th>
+                    <th>rpdu_type</th>
+                    <th>ats_number</th>
+                    <th>ats_sn</th>
+                    <th>rpdu_number</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                    </tr>
+        
+                  </tbody>
+                  <tfoot>
+                  
+                  </tfoot>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+<script>
+  //选择相应choice,自动加载数据库数据
+  $(".s-item").on("click",function(){
+    var id = data-id
+    $.ajax({
+      url: 'get_item_contain?fid='+id,
+      type:'POST',
+      success:function(data){
+        for (i in data){
+            var items = data[i]
+            var str = '<option>'+items+'</option>' 
+            $("#item-detail").append(str)
+          }
+      },
+      dataType:'json',
+    })
+  })
+
+  //查找
+  $("#search-button").on("click",function(){
+    console.log('sss')
+    var site=''
+    var type=''
+    var item=''
+    var url= 'get_power_list?site=ZHY52&type=10&value=RPP-601A'
+    $("#example1").DataTable({
+      "responsive": true, "lengthChange": true, "autoWidth": true,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+        "columns": [
+            { "data": "site" },
+            { "data": "supply_type" },
+            { "data": "rack_type" },
+            { "data": "rack_number" },
+            { "data": "open_number" },
+            { "data": "plug_number" },
+            { "data": "rpp_number" },
+            { "data": "pod_number" },
+            { "data": "udp_number" },
+            { "data": "ups_number" },
+            { "data": "ccu_number" },
+            { "data": "swbd_outlet" },
+            { "data": "swgr_outlet" },
+            { "data": "swgr_inlet" },
+            { "data": "pds_inlet" },
+            { "data": "pds_outlet" },
+            { "data": "rpdu_type" },
+            { "data": "ats_number" },
+            { "data": "ats_sn" },
+            { "data": "rpdu_number" }
+        ],
+        "pageLength":50,
+       "searchable":true,
+      "ajax":{
+           url: url,
+           type: 'GET',
+           data:'',
+           dataSrc:function(res){
+               console.log(res)
+               return res
+           },
+       }
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    
+  })
+
+</script>
+{% endblock %}

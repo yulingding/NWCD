@@ -1,0 +1,107 @@
+{% extends "nwcd_all.html" %}
+{% block title %}  dashboard {% endblock %}
+{% block head%}
+
+<style type="text/css">
+.dt-buttons.btn-group.flex-wrap{
+    flex-wrap:nowrap !important;
+}
+</style>
+
+{% endblock%}
+{% block header  %} 配置表 {% endblock %}
+
+{% block content %}
+
+<!-- /.card -->
+
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">DataTable </h3>
+              
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped" style="width:100%">
+                  <thead>
+                  <tr>
+                    <td>update_DateTime</td>
+                    <td>configuration_Item_Name</td>
+                    <td>configuration_Item_Description</td>
+                    <td>configuration_Item_Value</td>
+                    <td>previouse_item_value</td>
+                    <td>modificaiton_Methods</td>
+                    <td>configuration_Item_Value_Range</td>
+                    <td>configuration_Item_Value_Type</td>
+                    <td>condition_For_Validity</td>
+                    <td>configuration_Item_Level</td>
+                    <td>software_Name</td>
+                    <td>device_Name</td>
+                    <td>device_Description</td>
+                    <td>subsystem</td>
+                    <td>system</td>
+                    <td>facility</td>
+                    <td>site</td>
+                    <td>come_From</td>
+                    <td>more_Remark</td>
+                    
+                  </thead>
+                  <tbody>
+                    <tr>
+                    </tr>
+        
+                  </tbody>
+        
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+<script>
+  
+  $(function () {
+    
+    
+    
+        $("#example1").DataTable({
+      "responsive": true, "lengthChange": true,"autoWidth": true,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+        "columns": [
+            { "data": "update_DateTime" },
+            { "data": "configuration_Item_Name" },
+            { "data": "configuration_Item_Description" },
+            { "data": "configuration_Item_Value" },
+            { "data": "previouse_item_value" },
+            { "data": "modificaiton_Methods" },
+            { "data": "configuration_Item_Value_Range" },
+            { "data": "configuration_Item_Value_Type" },
+            { "data": "condition_For_Validity"},
+            { "data": "configuration_Item_Level" },
+            { "data": "software_Name" },
+            { "data": "device_Name" },
+            { "data": "device_Description"}, 
+            { "data": "subsystem"},
+            { "data": "system" },
+            { "data": "facility" },
+            { "data": "site" },
+            { "data": "come_From"},
+            { "data": "more_Remark" },
+            
+        ],
+       "pageLength":50,
+       "searchable":true,
+       "ajax":{
+           url: "get_equip_lsit",
+           type: 'GET',
+           data:'',
+           dataSrc:function(res){
+               console.log(res)
+               return res
+           },
+       }
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        
+    
+  });
+</script>
+{% endblock %}
